@@ -23,7 +23,7 @@ public class GameSettings
     public Vector2 offset = Vector2.zero;
     
     /// <summary>
-    /// Время анимации перемещения тайла при мперемешивании
+    /// Время анимации перемещения тайла при перемешивании
     /// </summary>
     public float shuffleTileTime = 0.2f;
     

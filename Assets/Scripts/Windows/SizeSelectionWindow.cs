@@ -5,6 +5,9 @@ using Zenject;
 
 namespace Windows
 {
+    /// <summary>
+    /// Окно выбора размерности игрового поля
+    /// </summary>
     public class SizeSelectionWindow : WindowItem
     {
         [SerializeField] private Vector2Int[] sizes =

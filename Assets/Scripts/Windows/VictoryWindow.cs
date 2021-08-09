@@ -1,10 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace Windows
 {
+    /// <summary>
+    /// Окно вывода сообщения о победе и количества ходов
+    /// </summary>
     public class VictoryWindow : WindowItem
     {
         [SerializeField] private Text moveCountText;

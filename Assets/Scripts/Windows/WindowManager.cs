@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Windows
 {
+    /// <summary>
+    /// Класс для управления окнами
+    /// </summary>
     public class WindowManager : MonoBehaviour
     {
         public WindowItem MainMenuWindow => menusItems[0];

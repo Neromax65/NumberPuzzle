@@ -55,7 +55,7 @@ public class TileView : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// Обновить позицию в мировых координатах с учетом смещения
+    /// Обновить позицию в мировых координатах с учётом смещения
     /// </summary>
     /// <param name="tile">Модель тайла</param>
     /// <param name="lastTile">Последний ли тайл</param>
@@ -111,7 +111,7 @@ public class TileView : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// Получить мировые координаты с учетом смещения
+    /// Получить мировые координаты с учётом смещения
     /// </summary>
     /// <param name="x">Координата X игрового поля</param>
     /// <param name="y">Координата Y игрового поля</param>

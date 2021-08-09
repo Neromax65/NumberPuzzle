@@ -24,7 +24,7 @@ namespace Logic
         public readonly int Index;
         
         /// <summary>
-        /// Событие о смене мест с другим тайлом, Tile передает сам тайл, а bool нужна для того, чтобы событие не
+        /// Событие о смене мест с другим тайлом, Tile передаёт сам тайл, а bool нужна для того, чтобы событие не
         /// дублировалось 
         /// </summary>
         public event Action<Tile, bool> Swapped;
@@ -40,7 +40,7 @@ namespace Logic
         }
         
         /// <summary>
-        /// Поменяться местами с другим тайлом, триггерит собыите
+        /// Поменяться местами с другим тайлом, триггерит событие
         /// </summary>
         /// <param name="otherTile">Другой тайл</param>
         public void Swap(Tile otherTile)

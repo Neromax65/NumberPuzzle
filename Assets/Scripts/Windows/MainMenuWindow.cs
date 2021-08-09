@@ -5,6 +5,9 @@ using Zenject;
 
 namespace Windows
 {
+    /// <summary>
+    /// Окно главного меню
+    /// </summary>
     public class MainMenuWindow: WindowItem
     {
         [SerializeField] private Button continueButton;
