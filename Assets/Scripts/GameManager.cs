@@ -33,12 +33,7 @@ public class GameManager : MonoBehaviour
     /// Количество ходов, которое совершил игрок
     /// </summary>
     public int MoveCount { get; private set; }
-    
-    /// <summary>
-    /// Игровые настройки
-    /// </summary>
-    public GameSettings gameSettings;
-    
+
     /// <summary>
     /// Пул для создания графических объектов для тайлов
     /// </summary>
@@ -96,7 +91,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SaveGameState()
     {
-        string[] indices = new string[Board.Tiles.GetLength(0) * Board.Tiles.GetLength(0)];
+        string[] indices = new string[Board.Tiles.GetLength(0) * Board.Tiles.GetLength(1)];
         int i = 0;
         for (int y = Board.Tiles.GetLength(1) - 1; y >= 0; y--)
         {
@@ -105,30 +100,22 @@ public class GameManager : MonoBehaviour
                 indices[i++] = Board.Tiles[x, y].Index.ToString();
             }
         }
-        PlayerPrefs.SetString(PlayerPrefsKeys.IndicesKey, string.Join(",", indices));
-        PlayerPrefs.SetInt(PlayerPrefsKeys.MoveCountKey, MoveCount);
-        PlayerPrefs.SetInt(PlayerPrefsKeys.ColumnsKey, Board.Columns);
-        PlayerPrefs.SetInt(PlayerPrefsKeys.RowsKey, Board.Rows);
+
+        IGameSaver<PlayerPrefsSaveInfo> gameSaver = new PlayerPrefsSaver(indices, Board.Columns, Board.Rows, MoveCount);
+        gameSaver.Save();
     }
 
-    /// <summary>
-    /// Загрузить состояние игры
-    /// </summary>
-    /// <returns>Массив индексов тайлов</returns>
-    private int[] LoadGameState()
-    {
-        string[] indices = PlayerPrefs.GetString(PlayerPrefsKeys.IndicesKey).Split(new []{','}, StringSplitOptions.RemoveEmptyEntries);
-        return indices.Select(int.Parse).ToArray();
-    }
-    
     /// <summary>
     /// Продолжить незаконченную игру
     /// </summary>
     public void ContinueGame()
     {
-        gameSettings.boardSize = new Vector2Int(PlayerPrefs.GetInt(PlayerPrefsKeys.ColumnsKey), PlayerPrefs.GetInt(PlayerPrefsKeys.RowsKey));
-        Board = new Board(gameSettings.boardSize, LoadGameState());
-        MoveCount = PlayerPrefs.GetInt(PlayerPrefsKeys.MoveCountKey);
+        IGameLoader<PlayerPrefsSaveInfo> gameLoader = new PlayerPrefsLoader();
+        var loadedGameStateInfo = gameLoader.Load();
+        
+        GameSettings.BoardSize = new Vector2Int(loadedGameStateInfo.ColumnCount, loadedGameStateInfo.RowsCount);
+        Board = new Board(GameSettings.BoardSize, loadedGameStateInfo.Indices.Select(int.Parse).ToArray());
+        MoveCount = loadedGameStateInfo.MoveCount;
         InitializeBoard();
         CurrentState = GameState.WaitingForInput;
     }
@@ -138,7 +125,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        Board = new Board(gameSettings.boardSize);
+        Board = new Board(GameSettings.BoardSize);
         InitializeBoard();
         CurrentState = GameState.ShufflingAnimation;
         Board.ShuffleEnded += () => CurrentState = GameState.WaitingForInput;
@@ -150,9 +137,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InitializeBoard()
     {
-        Vector2 tileSize = gameSettings.tileSize;
-        Vector2 boardSize = gameSettings.boardSize;
-        gameSettings.offset = new Vector2(tileSize.x/2 - boardSize.x / 2f * tileSize.x, tileSize.y/2 - boardSize.y / 2f * tileSize.y);
+        Vector2 tileSize = GameSettings.TileSize;
+        Vector2 boardSize = GameSettings.BoardSize;
+        GameSettings.Offset = new Vector2(tileSize.x/2 - boardSize.x / 2f * tileSize.x, tileSize.y/2 - boardSize.y / 2f * tileSize.y);
         foreach (var tile in Board.Tiles)
         {
             var tileView = _tileViewPool.Spawn();

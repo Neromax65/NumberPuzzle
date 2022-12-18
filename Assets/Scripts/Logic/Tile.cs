@@ -45,20 +45,11 @@ namespace Logic
         /// <param name="otherTile">Другой тайл</param>
         public void Swap(Tile otherTile)
         {
-            int tempX = X;
-            int tempY = Y;
+            (X, otherTile.X) = (otherTile.X, X);
+            (Y, otherTile.Y) = (otherTile.Y, Y);
 
-            X = otherTile.X;
-            Y = otherTile.Y;
-
-            otherTile.X = tempX;
-            otherTile.Y = tempY;
-
-            var eventHandler = Swapped;
-            eventHandler?.Invoke(this, false);
-
-            eventHandler = otherTile.Swapped;
-            eventHandler?.Invoke(otherTile, true);
+            Swapped?.Invoke(this, false);
+            otherTile.Swapped?.Invoke(otherTile, true);
         }
         
         /// <summary>
@@ -77,8 +68,7 @@ namespace Logic
         public void Destroy()
         {
             Swapped = null;
-            var eventHandler = Destroyed;
-            eventHandler?.Invoke();
+            Destroyed?.Invoke();
         }
         
         public override string ToString()

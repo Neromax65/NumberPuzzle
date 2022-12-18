@@ -1379,12 +1379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d46c52369cd4c429f5bb438c818660b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings:
-    boardSize: {x: 4, y: 4}
-    tileSize: {x: 100, y: 100}
-    offset: {x: 0, y: 0}
-    shuffleTileTime: 0.1
-    swapTileTime: 0.3
 --- !u!4 &448741741
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ namespace Windows
     /// </summary>
     public abstract class WindowItem : MonoBehaviour
     {
-        
         /// <summary>
         /// Показать окно
         /// </summary>

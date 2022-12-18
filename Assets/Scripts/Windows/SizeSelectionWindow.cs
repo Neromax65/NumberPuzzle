@@ -58,7 +58,7 @@ namespace Windows
         
         private void ChangeBoardSize(int optionIndex)
         {
-            _gameManager.gameSettings.boardSize = new Vector2Int(sizes[optionIndex].x, sizes[optionIndex].y);
+            GameSettings.BoardSize = new Vector2Int(sizes[optionIndex].x, sizes[optionIndex].y);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Logic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +12,9 @@ using Zenject;
 /// </summary>
 public class TileView : MonoBehaviour, IPointerClickHandler
 {
+    private const float SwapAnimationTime = 0.2f;
+    private const float ShuffleAnimationTime = 0.1f;
+    
     /// <summary>
     /// Событие об окончании анимации перемещения тайла
     /// </summary>
@@ -61,10 +65,11 @@ public class TileView : MonoBehaviour, IPointerClickHandler
     /// <param name="lastTile">Последний ли тайл</param>
     private void UpdateWorldPosition(Tile tile, bool lastTile)
     {
-        float time = (_gameManager.CurrentState == GameManager.GameState.ShufflingAnimation)
-            ? _gameManager.gameSettings.shuffleTileTime
-            : _gameManager.gameSettings.swapTileTime;
-        StartCoroutine(UpdateWorldPositionCoroutine(lastTile, time));
+        float time = _gameManager.CurrentState == GameManager.GameState.ShufflingAnimation
+            ? ShuffleAnimationTime
+            : SwapAnimationTime;
+        transform.DOLocalMove(GetWorldCoords(_tile), time).SetEase(Ease.Linear).OnComplete(() => AnimationPlayed?.Invoke(lastTile));
+        // StartCoroutine(UpdateWorldPositionCoroutine(lastTile, time));
 #if UNITY_EDITOR
         gameObject.name = _tile.ToString();
 #endif
@@ -118,8 +123,8 @@ public class TileView : MonoBehaviour, IPointerClickHandler
     /// <returns></returns>
     private Vector2 GetWorldCoords(int x, int y)
     {
-        float worldX = x * _gameManager.gameSettings.tileSize.x + _gameManager.gameSettings.offset.x;
-        float worldY = y * _gameManager.gameSettings.tileSize.y + _gameManager.gameSettings.offset.y;
+        float worldX = x * GameSettings.TileSize.x + GameSettings.Offset.x;
+        float worldY = y * GameSettings.TileSize.y + GameSettings.Offset.y;
         return new Vector2(worldX, worldY);
     }
     

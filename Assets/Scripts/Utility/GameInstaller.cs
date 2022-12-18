@@ -20,20 +20,5 @@ namespace Utility
             Container.BindInstance(windowManager).AsSingle();
             Container.BindMemoryPool<TileView, TileView.Pool>().WithInitialSize(16).FromComponentInNewPrefab(tileViewPrefab).UnderTransform(tilesParent);
         }
-
-        public override void Start()
-        {
-            base.Start();
-            SetTileSize();
-        }
-    
-        /// <summary>
-        /// Получения размера тайла из префаба
-        /// </summary>
-        private void SetTileSize()
-        {
-            var tileRectTransform = tileViewPrefab.GetComponent<RectTransform>();
-            gameManager.gameSettings.tileSize = tileRectTransform.sizeDelta * tileRectTransform.lossyScale;
-        }
     }
 }

@@ -11,8 +11,8 @@ namespace Logic
     /// </summary>
     public class Board
     {
-        public int Columns => Tiles.GetLength(0);
-        public int Rows => Tiles.GetLength(1);
+        public readonly int Columns;
+        public readonly int Rows;
         
         /// <summary>
         /// Двумерный массив, хранящий все тайлы, индексы являются координатами
@@ -33,7 +33,7 @@ namespace Logic
         /// Идет ли сейчас перемешивание какого-либо тайла
         /// </summary>
         private bool _isTileShuffling;
-        
+
         /// <summary>
         /// Конструктор для новой игры
         /// </summary>
@@ -41,6 +41,8 @@ namespace Logic
         public Board(Vector2Int boardSize)
         {
             Tiles = new Tile[boardSize.x, boardSize.y];
+            Columns = boardSize.x;
+            Rows = boardSize.y;
             int i = 0;
             for (int y = Rows - 1; y >= 0; y--)
             {
@@ -66,6 +68,8 @@ namespace Logic
         public Board(Vector2Int boardSize, int[] indices)
         {
             Tiles = new Tile[boardSize.x, boardSize.y];
+            Columns = boardSize.x;
+            Rows = boardSize.y;
             int i = 0;
             for (int y = Rows - 1; y >= 0; y--)
             {
@@ -132,8 +136,7 @@ namespace Logic
                 }
                 
             } while (CheckForWinCondition());
-            var eventHandler = ShuffleEnded;
-            eventHandler?.Invoke();
+            ShuffleEnded?.Invoke();
         }
 
         /// <summary>
