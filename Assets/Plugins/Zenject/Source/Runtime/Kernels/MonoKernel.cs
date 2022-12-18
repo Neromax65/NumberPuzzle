@@ -4,6 +4,7 @@
 
 using ModestTree;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Zenject
 {
